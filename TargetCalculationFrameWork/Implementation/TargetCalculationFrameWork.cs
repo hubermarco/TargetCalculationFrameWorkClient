@@ -39,17 +39,34 @@ namespace TargetCalculationFrameWork
 
         public ITargetCalculation GetTargetCalculation(TargetFormula targetFormula)
         {
-            var targetFormulaDllName = _targetFormulaDllSubString + targetFormula;
-
-            var currentDirectory = Directory.GetCurrentDirectory();
-
-            var targetFormulaFilePath = Path.Combine(currentDirectory, targetFormulaDllName);
+            var targetFormulaFilePath = GetTargetFormulaFilePath(targetFormula);
 
             var targetCalculationFactory = CreateTargetCalculationFactory(targetFormulaFilePath);
 
             var targetCalculation = targetCalculationFactory?.Create();
 
             return targetCalculation;
+        }
+
+        public ITargetCalculationParameters GetTargetCalculationParameters(TargetFormula targetFormula)
+        {
+            var targetFormulaFilePath = GetTargetFormulaFilePath(targetFormula);
+
+            var targetCalculationFactory = CreateTargetCalculationFactory(targetFormulaFilePath);
+
+            var targetCalculationParameters = targetCalculationFactory.CreateTargetCalculationParameters();
+
+            return targetCalculationParameters;
+        }
+
+        private string GetTargetFormulaFilePath(TargetFormula targetFormula)
+        {
+            var targetFormulaDllName = _targetFormulaDllSubString + targetFormula;
+
+            var currentDirectory = Directory.GetCurrentDirectory();
+
+            var targetFormulaFilePath = Path.Combine(currentDirectory, targetFormulaDllName);
+            return targetFormulaFilePath;
         }
 
         private static ITargetCalculationFactory CreateTargetCalculationFactory(string targetFormulaFilePath)

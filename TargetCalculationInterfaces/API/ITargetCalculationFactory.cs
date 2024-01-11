@@ -6,6 +6,8 @@ namespace TargetCalculationInterfaces
     {
         TargetFormula GetTargetFormula();
 
+        ITargetCalculationParameters CreateTargetCalculationParameters();
+
         ITargetCalculation Create();
     }
 }

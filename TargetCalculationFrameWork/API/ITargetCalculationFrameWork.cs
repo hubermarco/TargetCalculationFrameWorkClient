@@ -9,5 +9,7 @@ namespace TargetCalculationFrameWork
         IList<TargetFormula> GetAvailableTargetFormulas();
 
         ITargetCalculation GetTargetCalculation(TargetFormula targetFormula);
+
+        ITargetCalculationParameters GetTargetCalculationParameters(TargetFormula targetFormula);
     }
 }
