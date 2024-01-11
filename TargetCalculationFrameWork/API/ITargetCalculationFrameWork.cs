@@ -7,5 +7,7 @@ namespace TargetCalculationFrameWork
     public interface ITargetCalculationFrameWork
     {
         IList<TargetFormula> GetAvailableTargetFormulas();
+
+        ITargetCalculation GetTargetCalculation(TargetFormula targetFormula);
     }
 }

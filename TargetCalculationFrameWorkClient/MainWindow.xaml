@@ -41,12 +41,15 @@
                     <RowDefinition Height="20"/>
                     <RowDefinition Height="50"/>
                     <RowDefinition Height="20"/>
+                    <RowDefinition Height="50"/>
+                    <RowDefinition Height="20"/>
                 </Grid.RowDefinitions>
 
                 <ListBox Grid.Row="1" d:ItemsSource="{d:SampleData ItemCount=5}" Name ="TargetFormulaListBox">
                    
                 </ListBox>
                 <Button Grid.Row="3" FontWeight="Bold" Name="LoadButton" Click ="LoadButton_OnClick" >Load</Button>
+                <Button Grid.Row="5" FontWeight="Bold" Name="CalculateTargetButton" Click ="CalculateTargetButton_OnClick" >CalculateTarget</Button>
                 
             </Grid>
             <Grid Grid.Column="2">

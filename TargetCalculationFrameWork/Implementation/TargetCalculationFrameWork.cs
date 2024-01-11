@@ -26,14 +26,7 @@ namespace TargetCalculationFrameWork
 
             foreach (var targetFormulaFilePath in targetFormulaFilePathes)
             {
-                // Load the assembly from the DLL
-                var assembly = Assembly.LoadFile(targetFormulaFilePath);
-
-                // Get the type (class) from the assembly
-                var targetCalculationFactoryType = assembly.GetTypes().First(type => type.ToString().Contains("TargetCalculationFactory"));
-
-                var targetCalculationFactory =
-                    Activator.CreateInstance(targetCalculationFactoryType) as ITargetCalculationFactory;
+                var targetCalculationFactory = CreateTargetCalculationFactory(targetFormulaFilePath);
 
                 var targetFormula = targetCalculationFactory?.GetTargetFormula();
 
@@ -42,6 +35,35 @@ namespace TargetCalculationFrameWork
             }
 
             return targetFormulaList;
+        }
+
+        public ITargetCalculation GetTargetCalculation(TargetFormula targetFormula)
+        {
+            var targetFormulaDllName = _targetFormulaDllSubString + targetFormula;
+
+            var currentDirectory = Directory.GetCurrentDirectory();
+
+            var targetFormulaFilePath = Path.Combine(currentDirectory, targetFormulaDllName);
+
+            var targetCalculationFactory = CreateTargetCalculationFactory(targetFormulaFilePath);
+
+            var targetCalculation = targetCalculationFactory?.Create();
+
+            return targetCalculation;
+        }
+
+        private static ITargetCalculationFactory CreateTargetCalculationFactory(string targetFormulaFilePath)
+        {
+            // Load the assembly from the DLL
+            var assembly = Assembly.LoadFile(targetFormulaFilePath);
+
+            // Get the type (class) from the assembly
+            var targetCalculationFactoryType =
+                assembly.GetTypes().First(type => type.ToString().Contains("TargetCalculationFactory"));
+
+            var targetCalculationFactory =
+                Activator.CreateInstance(targetCalculationFactoryType) as ITargetCalculationFactory;
+            return targetCalculationFactory;
         }
     }
 }

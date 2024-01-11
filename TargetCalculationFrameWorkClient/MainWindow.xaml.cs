@@ -1,6 +1,8 @@
 ﻿
+using System;
 using System.Windows;
 using TargetCalculationFrameWork;
+using TargetCalculationInterfaces;
 
 namespace TargetCalculationFrameWorkClient
 {
@@ -22,6 +24,19 @@ namespace TargetCalculationFrameWorkClient
             TargetFormulaListBox.Items.Clear();
             foreach (var targetFormula in targetFormulas)
                 TargetFormulaListBox.Items.Add(targetFormula.ToString());
+        }
+
+
+        private void CalculateTargetButton_OnClick(object sender, RoutedEventArgs e)
+        {
+            var targetFormulaString = TargetFormulaListBox.SelectedItem as string;
+
+            if (Enum.TryParse<TargetFormula>(targetFormulaString, out var targetFormula))
+            {
+                var targetCalculationFrameWork = TargetCalculationFrameWorkFactory.Create();
+                var targetCalculation = targetCalculationFrameWork.GetTargetCalculation(targetFormula);
+                targetCalculation.Calculate(null);
+            }
         }
     }
 }
