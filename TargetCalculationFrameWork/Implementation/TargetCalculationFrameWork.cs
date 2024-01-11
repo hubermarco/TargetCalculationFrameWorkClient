@@ -11,6 +11,7 @@ namespace TargetCalculationFrameWork
     internal class TargetCalculationFrameWork : ITargetCalculationFrameWork
     {
         private readonly string _targetFormulaDllSubString = "TargetFormula";
+        private static readonly string _targetCalculationFactorySubString = "TargetCalculationFactory";
         private readonly string _dllExtension = ".dll";
 
         public IList<TargetFormula> GetAvailableTargetFormulas()
@@ -76,7 +77,7 @@ namespace TargetCalculationFrameWork
 
             // Get the type (class) from the assembly
             var targetCalculationFactoryType =
-                assembly.GetTypes().First(type => type.ToString().Contains("TargetCalculationFactory"));
+                assembly.GetTypes().First(type => type.ToString().Contains(_targetCalculationFactorySubString));
 
             var targetCalculationFactory =
                 Activator.CreateInstance(targetCalculationFactoryType) as ITargetCalculationFactory;
